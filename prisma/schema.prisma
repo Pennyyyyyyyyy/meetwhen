@@ -1,0 +1,43 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "sqlite"
+}
+
+model Event {
+  id           String        @id @default(cuid())
+  title        String
+  dates        String        // JSON array of date strings ["2026-04-15", "2026-04-16"]
+  startTime    String        @default("08:00") // daily start "HH:MM"
+  endTime      String        @default("22:00") // daily end "HH:MM"
+  slotDuration Int           @default(30)       // minutes
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @updatedAt
+  participants Participant[]
+}
+
+model Participant {
+  id             String         @id @default(cuid())
+  name           String
+  eventId        String
+  event          Event          @relation(fields: [eventId], references: [id], onDelete: Cascade)
+  createdAt      DateTime       @default(now())
+  availabilities Availability[]
+
+  @@index([eventId])
+}
+
+model Availability {
+  id            String      @id @default(cuid())
+  participantId String
+  participant   Participant @relation(fields: [participantId], references: [id], onDelete: Cascade)
+  date          String      // "YYYY-MM-DD"
+  startTime     String      // "HH:MM"
+  endTime       String      // "HH:MM" end-exclusive
+  status        String      @default("available") // "available" | "unavailable"
+
+  @@index([participantId])
+}

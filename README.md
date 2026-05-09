@@ -156,8 +156,3 @@ npm run test:cov    # 含 coverage
 | POST | `/api/parse-schedule` | 課表圖片 → Gemini 解析 |
 | POST | `/api/parse-text` | 中文文字 → 時間區間解析 |
 
----
-
-## 📝 License
-
-MIT

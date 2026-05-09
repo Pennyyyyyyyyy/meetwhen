@@ -53,3 +53,6 @@ next-env.d.ts
 
 # os
 Thumbs.db
+
+AGENTS.md
+CLAUDE.md
